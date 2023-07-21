@@ -45,8 +45,8 @@ jobs:
     name: Release
     needs: build_lint_test
     permissions:
-      contents: write # to create release (changesets/action)
-      pull-requests: write # to create pull request (changesets/action)
+      contents: write # to create release
+      pull-requests: write # to create pull request
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/travelperk' }}
     steps:
@@ -70,12 +70,12 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Create Release Pull Request or Publish to NPM
+      - name: Publish to NPM
         id: changesets
         uses: changesets/action@v1
         with:
-          commit: "Release commit"
-          title: "Next release"
+          commit: "Package release"
+          createGithubReleases: false
           publish: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
